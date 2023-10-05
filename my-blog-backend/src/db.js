@@ -14,9 +14,10 @@ export async function getArticleByName(name) {
   return await db.collection('articles').findOne({ name });
 }
 
-export async function upvoteArticle(name) {
+export async function upvoteArticle(name, uid) {
   await db.collection('articles').updateOne({ name }, {
     '$inc': { upvotes: 1 },
+    '$push': { upvoteIds: uid },
   });
   return await getArticleByName(name);
 }
