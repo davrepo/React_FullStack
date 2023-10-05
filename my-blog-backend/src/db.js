@@ -1,29 +1,29 @@
 import { MongoClient } from 'mongodb';
 
-const url = process.env.MONGO_URL;
-const client = new MongoClient(url);
-
 let db;
 
-export const connectDB = async () => {
+export async function connectDB() {
+  const url = process.env.MONGO_URL;
+  const client = new MongoClient(url);
+
   await client.connect();
   db = client.db('react');
-};
+}
 
-export const getArticle = async (name) => {
+export async function getArticleByName(name) {
   return await db.collection('articles').findOne({ name });
-};
+}
 
-export const updateUpvotes = async (name) => {
+export async function upvoteArticle(name) {
   await db.collection('articles').updateOne({ name }, {
     '$inc': { upvotes: 1 },
   });
-  return getArticle(name);
-};
+  return await getArticleByName(name);
+}
 
-export const addComment = async (name, comment) => {
+export async function addCommentToArticle(name, comment) {
   await db.collection('articles').updateOne({ name }, {
     '$push': { comments: comment },
   });
-  return getArticle(name);
-};
+  return await getArticleByName(name);
+}
