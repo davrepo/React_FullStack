@@ -1,23 +1,20 @@
-// custom hook to get user data from firebase
-
 import { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const useUser = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, user => { 
-      // if user is logged in, user is an object, otherwise it's null
-      setUser(user);
-      setLoading(false);
-    });
-    return unsubscribe; // unsubscribe when component unmounts, to prevent memory leaks
-  }, []);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(getAuth(), user => {
+            setUser(user);
+            setIsLoading(false);
+        });
 
-  return { user, loading };
-};
+        return unsubscribe;
+    }, []);
+
+    return { user, isLoading };
+}
 
 export default useUser;
