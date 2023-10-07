@@ -16,18 +16,26 @@ const ArticlePage = () => {
   const { user, isLoading } = useUser();
 
   useEffect(() => { 
-    const loadArticleInfo = async () => {
-      try {
+  const loadArticleInfo = async () => {
+    try {
+      console.log("Is Loading:", isLoading); // Debug isLoading state
+      if (!isLoading) {
         const token = user && await user.getIdToken();
+        console.log("User:", user); // Debug user object
+        console.log("Token:", token); // Debug token
+
         const headers = token ? { authtoken: token } : {};
         const result = await axios.get(`/api/articles/${articleId}`, { headers });
         setArticleInfo(result.data);
-      } catch (error) {
-        console.error("An error occurred while loading article: ", error);
       }
+    } catch (error) {
+      console.error("An error occurred while loading article: ", error);
     }
+  };
+  if (!isLoading) {
     loadArticleInfo();
-  } , [articleId]); // only run when articleId changes
+  }
+}, [articleId, isLoading]); // Added isLoading to dependency array
   
   // same as,
   // const params = useParams();
