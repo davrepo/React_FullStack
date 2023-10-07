@@ -31,11 +31,15 @@ const ArticlePage = () => {
     const article = articles.find(article => article.name === articleId);
 
     const addUpvote = async () => {
-        const token = user && await user.getIdToken();
-        const headers = token ? { authtoken: token } : {};
-        const response = await axios.put(`/api/articles/${articleId}/upvote`, null, { headers });
-        const updatedArticle = response.data;
-        setArticleInfo(updatedArticle);
+        try {
+            const token = user && await user.getIdToken();
+            const headers = token ? { authtoken: token } : {};
+            const response = await axios.put(`/api/articles/${articleId}/upvote`, null, { headers });
+            const updatedArticle = response.data;
+            setArticleInfo(updatedArticle);
+        } catch (error) {
+            console.error('Error upvoting:', error);
+        }
     }
 
     if (!article) {
@@ -49,7 +53,7 @@ const ArticlePage = () => {
             {user
                 ? <button onClick={addUpvote}>{canUpvote ? 'Upvote' : 'Already Upvoted'}</button>
                 : <button>Log in to upvote</button>}
-            <p>This article has {articleInfo.upvotes} upvote(s)</p>
+            <p style={{ paddingLeft: '20px' }}>This article has {articleInfo.upvotes} upvote(s)</p>
         </div>
         {article.content.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>

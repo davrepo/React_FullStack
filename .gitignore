@@ -3,10 +3,9 @@ node_modules/
 
 # Environment variables
 .env
-.mongo-db-data/
-.credentials.json
 mongo-db-data/
 credentials.json
+build/
 
 
 # Logs

@@ -1,0 +1,2 @@
+env_variables:
+  MONGO_URL: "mongodb+srv://abashedchestnuts:vDeNK4HiCCYOrFMx@cluster0.6mae4l2.mongodb.net/?retryWrites=true&w=majority"

@@ -24,45 +24,29 @@ const CreateAccountPage = () => {
         }
     }
 
-    const inputStyle = {
-        display: 'block',
-        marginBottom: '1em',
-        padding: '0.5em'
-    };
-
-    const buttonStyle = {
-        display: 'block',
-        padding: '0.5em 1em',
-        marginBottom: '1em'
-    };
-
     return (
         <>
         <h1>Create Account</h1>
-        {error && <p className="error" style={{color: 'red'}}>{error}</p>}
+        {error && <p className="error">{error}</p>}
         <input
-            style={inputStyle}
             placeholder="Your email address"
             value={email}
             onChange={e => setEmail(e.target.value)} />
         <input
-            style={inputStyle}
             type="password"
             placeholder="Your password"
             value={password}
             onChange={e => setPassword(e.target.value)} />
         <input
-            style={inputStyle}
             type="password"
             placeholder="Re-enter your password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)} />
-        <button
-            style={buttonStyle}
-            onClick={createAccount}>Create Account</button>
+        <button onClick={createAccount}>Create Account</button>
         <Link to="/login">Already have an account? Log in here</Link>
         </>
     );
+
 }
 
 export default CreateAccountPage;

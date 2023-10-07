@@ -1,4 +1,3 @@
-// an array of objects, each object is an article
 const articles = [
   {
       name: 'learn-react',

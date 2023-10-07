@@ -22,9 +22,9 @@ export async function upvoteArticle(name, uid) {
   return await getArticleByName(name);
 }
 
-export async function addCommentToArticle(name, comment) {
+export async function addCommentToArticle(name, newComment) {
   await db.collection('articles').updateOne({ name }, {
-    '$push': { comments: comment },
+    '$push': { comments: newComment }, // Push the newComment object
   });
   return await getArticleByName(name);
 }

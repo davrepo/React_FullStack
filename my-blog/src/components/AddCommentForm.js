@@ -1,35 +1,39 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 import axios from 'axios';
+import useUser from '../hooks/useUser';
 
 const AddCommentForm = ({ articleName, onArticleUpdated }) => {
-  const [username, setUsername] = useState("");
-  const [commentText, setCommentText] = useState("");
-  
-  const addComment = async () => {
-    const result = await axios.post(`/api/articles/${articleName}/comments`, {
-      postedBy: username,
-      text: commentText
-    });
-    const updatedArticle = result.data;
-    onArticleUpdated(updatedArticle);
-    setUsername("");
-    setCommentText("");
-  }
-  
-  return (
-    <div id="add-comment-form">
-      <h3>Add a Comment</h3>
-      <label>
-        Name:
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Comment:
-        <textarea rows="4" cols="50" value={commentText} onChange={e => setCommentText(e.target.value)} />
-      </label>
-      <button onClick={addComment}>Add Comment</button>
-    </div>
-  );
-};
+    const [name, setName] = useState('');
+    const [commentText, setCommentText] = useState('');
+    const { user } = useUser();
+
+    const addComment = async () => {
+        const token = user && await user.getIdToken();
+        const headers = token ? { authtoken: token } : {};
+        const response = await axios.post(`/api/articles/${articleName}/comments`, {
+            postedBy: name,
+            text: commentText,
+        }, {
+            headers,
+        });
+        const updatedArticle = response.data;
+        onArticleUpdated(updatedArticle);
+        setName('');
+        setCommentText('');
+    }
+
+    return (
+        <div id="add-comment-form">
+            <h3>Add a Comment</h3>
+            {user && <p>You are posting as {user.email}</p>}
+            <textarea
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
+                rows="4"
+                cols="50" />
+            <button onClick={addComment}>Add Comment</button>
+        </div>
+    )
+}
 
 export default AddCommentForm;

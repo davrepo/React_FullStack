@@ -11,6 +11,12 @@ button {
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;  /* Smooth transition */
+}
+
+button:hover {
+  background-color: #555;  /* Change background color */
+  transform: scale(1.05);  /* Slightly enlarge the button */
 }
 
 h3, h4 {
@@ -111,4 +117,8 @@ input, textarea {
   position: absolute;
   top: 8px;
   right: 8px;
+}
+
+.p-space-left {
+  padding-left: 20px; /* or margin-left: 20px; */
 }

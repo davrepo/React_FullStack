@@ -1,24 +1,25 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-  const logIn = async () => {
-    try {
-      await signInWithEmailAndPassword(getAuth(), email, password);
-      navigate("/articles"); // redirect to articles page on successful login
-    } catch (e) {
-      setError(e.message);
+    const navigate = useNavigate();
+
+    const logIn = async () => {
+        try {
+            await signInWithEmailAndPassword(getAuth(), email, password);
+            navigate('/articles');
+        } catch (e) {
+            setError("Something is incorrect. Please try again.");
+        }
     }
-  }
 
-  return (
-    <>
+    return (
+        <>
         <h1>Log In</h1>
         {error && <p className="error">{error}</p>}
         <input
@@ -31,9 +32,9 @@ const LoginPage = () => {
             value={password}
             onChange={e => setPassword(e.target.value)} />
         <button onClick={logIn}>Log In</button>
-        <Link to="/create-account">Don't have an account? Create one here</Link>
-    </>
-  );
+        <Link to="/create-account" style={{ paddingLeft: '20px' }}>Don't have an account? Create one here</Link>
+        </>
+    );
 }
 
 export default LoginPage;
